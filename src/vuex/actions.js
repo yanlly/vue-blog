@@ -1,23 +1,12 @@
 import {
-  getBlogList,
-  getUser
+  getBlogList
 } from '../api';
 
-//存储blog数据
+//从后台获取blog数据
 export const getBlog = ({commit}) => {
   return new Promise((resolve) => {
     getBlogList().then((res) => {
       commit('GETBLOGS', res.data.blogs);
-      resolve();
-    });
-  });
-};
-
-//存储注册数据
-export const onLogin = ({commit}) => {
-  return new Promise((resolve) => {
-    getUser().then((res) => {
-      commit('GETUSER', res.data.users);
       resolve();
     });
   });

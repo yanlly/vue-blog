@@ -1,12 +1,13 @@
 <template>
     <div class="bloglist">
-        <div class="search_box">
-            <i class="iconfont iconback" @click="$router.back()"></i>
-            <input type="search" placeholder="搜索" class="search_content" v-model="val">
-            <i class="iconfont iconsearch"></i>
-        </div>
+        <mt-swipe :auto="4000">
+            <mt-swipe-item v-for="(img,index) in imgs" :key="index">
+                <img :src="img.url" class="img"/>
+            </mt-swipe-item>
+        </mt-swipe>
         <div class="blogs"  v-for="(blog,index) in blogList" :key="index">
             <img :src="blog.img" alt="image"  class="blogpic">
+            
             <div class="blogmsg"> 
                 <router-link :to="{path:'/blog',query:{ id:blog.id}}" class="blogtitle" >{{blog.title}}</router-link>     
                 <p class="blogtext" v-html="blog.text"></p>
@@ -20,30 +21,16 @@
     </div>
 </template>
 <script>
-    import {deleteBlog} from '../../api'
+import {deleteBlog} from '../../../api'
 	export default {
-        data() {
-            return{
-                val: ''
-            }
-        },
         computed: {
-            //返回与搜索内容相匹配的blog
             blogList() {
                 this.$store.dispatch('getBlog')
-                let blogArr= this.$store.state.blogList,
-                searchVal=this.val.toLowerCase();
-                if(!searchVal){
-                    return 
-                }else{
-                    blogArr = blogArr.filter(function(item){
-                        if(item.title.toLowerCase().indexOf(searchVal) !== -1 || item.text.toLowerCase().indexOf(searchVal) !== -1){
-                            return item;
-                        }
-                    })
-                    return blogArr;
-                }  
-            }
+                return this.$store.state.blogList  
+            },
+            imgs() {
+                return this.$store.state.imgs;
+            },
         },
         methods: {
             onDelete(k){
@@ -69,11 +56,10 @@
 	}
 </script>
 <style lang = "less" scoped>
-    .bloglist                       { background-color: #efefef;
-        .search_box                 { width: 100%; height: 50px; background-color: #26a2ff; display: flex; box-sizing: border-box;
-            .iconfont               { width: 15%; display: flex; align-items: center; justify-content: center; color: #fff; }
-            .search_content         { flex: 1; padding: 4px 10px; margin: 10px 0; border-radius: 3px; }
-        }
+    .bloglist                       { background-color: #efefef; overflow: hidden;
+        .mint-swipe                 { height: 160px; margin-top: 51px;
+            .img                    { width: 100%; height: auto; }
+        } 
         .blogs                      { margin:10px 0; padding:10px 15px; background: #fff; overflow: hidden;
             .blogpic                { width:36%; float: left; }
             .blogmsg                { width:60%; float: right;

@@ -17,14 +17,17 @@ export const addBlog = params => {
   return axios.post(`/blog/add`, params).then(res => res.data);
 };
 
-//注册接口
-export const createUser = params => {
-  return axios.post(`/createuser`, params).then(res => res.data);
+//评论次数接口
+export const addCmnum = params => {
+  return axios.post(`/blog/cmnum`, params).then(res => res.data);
 };
 
-//获取注册数据接口
-export const getUser = params => { 
-  return axios.get(`/getuser`, { 
-    params: params
-  });
+//注册接口
+export const createUser = params => {
+  return axios.post(`/createuser`, params);
+};
+
+//登录接口
+export const sendUser = params => {
+  return axios.post(`/senduser`, params);
 };

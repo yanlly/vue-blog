@@ -10,6 +10,7 @@
   </ul>
 </template>
 <script>
+    import {addCmnum} from '../../api'
 	export default {
         data() {
             return{
@@ -26,44 +27,24 @@
                         comment.push(data[i])
                     }   
                 }
+                addCmnum({                           //向后台发送本文的评论次数
+                    id: this.id,
+                    cmnum: comment.length
+                });
                 return comment;  
             }
         }
 	}
 </script>
-<style>
-    .comment_msg{
-        width: 100%;
-        background:#fff;
-    }
-    .comment_text{
-        margin:20px 10px;
-        padding-bottom:20px;
-        border-bottom: 1px #748594 solid;
-    }
-    .comment_text .info_text{
-        font-size:15px;
-        line-height: 28px;
-        margin-bottom: 10px;
-    }
-    .comment_text .info_msg{
-        width: 100%;
-        overflow: hidden;       
-        line-height: 18px;
-    }
-    .comment_text .info_msg .msg_time{
-        float: left;
-        font-size: 14px;
-        color: #748594;
-    }
-    .comment_text .info_msg .msg_name{
-        font-size: 14px;
-        float: right;
-        /* background: url(./images/auicon.jpg) no-repeat 0 0; */
-    }
-    .comment_text .info_msg .msg_name .iconperson{
-        color: #748594;
-        font-size: 14px;
-        margin-right:5px;
+<style lang = "less" scoped>
+    @comment-color: #748594;
+    .comment_text           { margin:20px 10px; padding-bottom:20px; border-bottom: 1px @comment-color solid;
+        .info_text          { font-size:15px; line-height: 28px; margin-bottom: 10px; }
+        .info_msg           { width: 100%; overflow: hidden; line-height: 18px; 
+            .msg_time       { float: left; font-size: 14px; color: @comment-color; }
+            .msg_name       { font-size: 14px; float: right;
+                .iconperson { color: @comment-color; font-size: 14px; margin-right:5px; }
+            }
+        }
     }
 </style>

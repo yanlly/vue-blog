@@ -1,12 +1,10 @@
 <template>
 	<div>
         <mt-header fixed title="个人博客">
-            <mt-button class="iconfont iconback" slot="left" @click.native="$router.push('/layouts')">返回</mt-button>   
+            <mt-button class="iconfont iconback" slot="left" @click.native="$router.push('/layouts')">返回</mt-button> 
+            <mt-button class="iconfont iconsearch" slot="right" @click.native="$router.push({path: '/search'})"></mt-button>  
         </mt-header>
-        <div v-for="(item,index) in blog" :key="index">
-            <div class="art_adr container" >您现在的位置是：<router-link to="/Layouts">首页</router-link> > {{item.tag}}</div>
-            
-            <article>
+            <article v-for="(item,index) in blog" :key="index">
                 <!-- 文章部分 -->
                 <section class="art_box">
                     <h2 class="art_title">{{item.title}}</h2>
@@ -31,7 +29,7 @@
                     </div>          
                 </section>               
             </article>
-       </div> 
+       
 	</div>
 </template>
 <script>
@@ -43,9 +41,7 @@
         },
         data() {
             return{
-                id: this.$route.query.id,               
-                tag: '',
-                title: '',
+                id: this.$route.query.id,
                 content: '',
                 name: '',
                 date: moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -79,96 +75,37 @@
                         date: date,
                         id: id
                     }
-                    this.$store.dispatch('getComment', comment);
+                    this.$store.dispatch('getComment', comment);//把评论内容放到state
                     this.content= '';
                 }
             }
         }
 	}
 </script>
-<style>
-    .mint-header-title{
-        font-size: 20px;
+<style lang = "less" scoped>
+    @comment-color: #748594;
+    .mint-header                { height: 50px;
+        .mint-header-button 
+            .iconsearch         { float: right; }
     }
-    .art_adr{
-        border-bottom: #bfbfbf 1px solid; 
-        font-size: 14px;  
-        line-height: 40px;
-        background: #fff;
-        margin-top: 50px;
-        padding: 0 20px;
+
+    .art_box                    { background-color: #fff; margin-top: 60px;
+        .art_title              { font-size: 25px; margin:0 20px; padding-top:20px; }
+        .art_con                { line-height: 30px; padding: 20px; }
     }
-    .art_box {
-        background-color: #fff;
+
+    .comment_box                { margin: 10px 0 0; padding:20px; box-sizing: border-box; background-color: #fff;
+        .comment_title          { font-size: 15px; color:@comment-color; line-height: 2; border-bottom: @comment-color 1px solid; }
+        .comment_info           { width: 90%; height:120px; margin-left: 5%; margin-top:30px; border:1px @comment-color solid;
+            .comment            { box-sizing: border-box; width: 100%; height: 70%; padding: 10px; resize: none; outline: none; border:none; border-bottom: 1px @comment-color solid; font-size: 14px; }   
+            .comment_name       { font-size: 14px; color:#566573; margin-left:10px; }
+            .name_input         { width:100px; height: 27px; border:none;  outline:none; font-size: 14px; color:#566573; 
+                &::-webkit-input-placeholder    { color:red; }
+            }
+            .send               { float: right; line-height: 27px; margin-right: 10px; }
+        }
+        .comment_list           { margin-bottom: 50px;
+            .comment_item       { clear: both; margin-top: 20px; color:@comment-color; line-height: 2; border-bottom: @comment-color 1px solid; }  
+        }
     }
-    .art_box .art_title{
-        font-size: 25px;
-        margin:0 20px;
-        padding-top:20px;
-    }
-    .art_box .art_con { 
-        line-height: 30px;
-        padding: 20px; 
-    }
-    .comment_box{
-        margin: 10px 0 0;
-        padding:20px;
-        box-sizing: border-box;
-        background-color: #fff;
-    }
-    .comment_box .comment_title{
-        font-size: 15px;
-        color:#748594;
-        line-height: 2;
-        border-bottom: #748594 1px solid;
-    }
-    .comment_box .comment_info{
-        width: 90%;
-        height:120px;
-        margin-left: 5%;
-        margin-top:30px;
-        border:1px #748594 solid;
-    }
-    .comment_box .comment_info .comment{
-        box-sizing: border-box;
-        width: 100%;
-        height: 70%;
-        padding: 10px;
-        resize: none;
-        outline: none;
-        border:none;
-        border-bottom: 1px #748594 solid;
-        font-size: 14px;
-    }
-    .comment_box .comment_info .comment_name{
-        font-size: 14px;
-        color:#566573;
-        margin-left:10px;
-    }
-    .comment_box .comment_info input::-webkit-input-placeholder{
-        color:red;
-    }
-    .comment_box .comment_info .name_input{
-        width:100px;
-        height: 27px;
-        border:none;
-        outline:none;
-        font-size: 14px;
-        color:#566573;
-    }
-    .comment_box .comment_info .send{
-        float: right;
-        line-height: 27px;
-        margin-right: 10px;
-    }
-    .comment_box .comment_list{
-        margin-bottom: 50px;
-    }
-    .comment_box .comment_list .comment_item{
-        clear: both;
-        margin-top: 20px;
-        color:#748594;
-        line-height: 2;
-        border-bottom: #748594 1px solid;
-    }  
 </style>

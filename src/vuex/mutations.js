@@ -8,16 +8,14 @@ export const mutations = {
     state.user = '';
   },
 
-  GETUSER(state, data) {    
-    state.users = data;
-  },
-
   OPENSTATUS(state) { 
     state.openStatus = !state.openStatus;
   },
+
   GETBLOGS(state, data) { 
     state.blogList = data;
   },
+
   GETID(state, data) { 
     state.id = data;
   },

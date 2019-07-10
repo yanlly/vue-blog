@@ -1,3 +1,6 @@
 [
- 
+    {
+        "regName": "admin",
+        "regPwd": "123456"           
+    }
 ]

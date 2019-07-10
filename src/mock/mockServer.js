@@ -1,7 +1,7 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import Mock from 'mockjs'
-import Blogs from './data.json'
+import Blogs from './blog.json'
 import Users from './user.json'
 
 
@@ -23,6 +23,24 @@ export default {
         });
       });
       
+      
+      // 评论次数
+      mock.onPost('/blog/cmnum').reply(config => {
+        let {id,cmnum} = JSON.parse(config.data);
+          Blogs.some((t) => {
+            if (t.id === id) {
+              t.cmnum= cmnum
+              return true;
+            }
+          });
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve([200]);
+          }, 200);
+        });
+      });
+
+
       // 删除blog
       mock.onPost('/blog/delete').reply(config => {
         let {id} = JSON.parse(config.data);
@@ -41,13 +59,13 @@ export default {
 
       // 添加blog
       mock.onPost('/blog/add').reply(config => {
-        let {title,tag,text,time} = JSON.parse(config.data);
+        let {title,text,time} = JSON.parse(config.data);
           Blogs.unshift({
             id: Mock.Random.guid(),
             title: title,
             img: "../../static/images/pic1.jpg",
             text: text,
-            tag: tag,
+            cmnum: "",
             time: time,
             isDelete: false,
           });
@@ -58,29 +76,49 @@ export default {
         });
       });
 
+      
       //注册帐号
       mock.onPost('/createuser').reply(config => {
         let {regName,regPwd} = JSON.parse(config.data);
-        Users.unshift({
-            regName: regName,
-            regPwd: regPwd,           
-          });
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            resolve([200]);
-          }, 200);
-        });
+        for(let i=0;i<Users.length;i++){
+          if(Users[i].regName===regName){               //重复账号返回204
+            return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                resolve([204]);
+              }, 200);
+            });
+          }else{
+            Users.unshift({
+              regName: regName,
+              regPwd: regPwd,           
+            });
+            return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                resolve([200]);
+              }, 200);
+            });
+          }
+        }
       });
-      
-      //返回注册的数据
-      mock.onGet('/getuser').reply(config => {        
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            resolve([200, {
-              users: Users
-            }]);
-          }, 200);
-        });
+            
+      //登录
+      mock.onPost('/senduser').reply(config => {
+        let {logName,logPwd} = JSON.parse(config.data);
+        for(let i=0;i<Users.length;i++){
+          if(Users[i].regName===logName & Users[i].regPwd===logPwd){
+            return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                resolve([200]);
+              }, 200);
+            });
+          }else{
+            return new Promise((resolve, reject) => {    //登录帐号与已注册账号不匹配返回204
+              setTimeout(() => {
+                resolve([204]);
+              }, 200);
+            });
+          }
+        }
       });
     }
   };

@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Layouts from '../components/Layouts/Layouts.vue'
-import BlogList from '../components/Layouts/BlogList.vue'
-import DeleteBlog from '../components/Layouts/DeleteBlog.vue'
-import AddBlog from '../components/Layouts/AddBlog.vue'
+import BlogList from '../components/Layouts/children/BlogList.vue'
+import AddBlog from '../components/Layouts/children/AddBlog.vue'
 import Login from '../components/Login/Login.vue'
 import Blog from '../components/Blog/Blog.vue'
 import Search from '../components/Search/Search.vue'
@@ -19,10 +18,6 @@ export default new Router({
         {
           path: 'bloglist',
           component: BlogList
-        },
-        {
-          path: 'delete',
-          component: DeleteBlog
         },
         {
           path: 'add',

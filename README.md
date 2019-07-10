@@ -2,7 +2,7 @@
 
 ### 技术栈
 ```
-vue2 + vuex + vue-router + webpack + mint-ui + mock.js + 
+vue2 + vuex + vue-router + webpack + mint-ui + mock.js + less
 ```
 
 ### 目录结构
@@ -19,6 +19,7 @@ vue2 + vuex + vue-router + webpack + mint-ui + mock.js +
 │   ├── components                     
 │   │   ├── Blog                       // 文章组件
 │   │   ├── Layouts                    // 首页组件
+│   │   │   └── children               // 子路由组件
 │   │   ├── Login                      // 登录组件
 │   │   └── Search                     // 查找组件
 │   ├── mock                           // 模拟数据
